@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\MahasiswaController;
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ProfileController;
+
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -37,4 +40,18 @@ Route::get('/tentang-saya', function () {
     return view('about');
 });
 
-route::get('/profile', [ProfileController::class, 'index']);
+Route::get('/profile', [ProfileController::class, 'index']);
+
+
+
+Route::view('master', 'template/master');
+
+//route mahasiswa
+Route::get('data-mahasiswa',[MahasiswaController::class, 'index']);
+Route::get('add-mahasiswa',[MahasiswaController::class, 'create']);
+Route::post('getDataM',[MahasiswaController::class, 'ambilData'])->name('mahasiswa.getDataM');
+
+//tugas 3
+Route::get('data-blog',[BlogController::class, 'index']);
+Route::get('add-blog',[BlogController::class, 'create']);
+Route::post('getData',[BlogController::class, 'ambilData'])->name('blog.getData');
