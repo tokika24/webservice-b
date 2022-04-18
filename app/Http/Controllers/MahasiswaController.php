@@ -18,7 +18,35 @@ class MahasiswaController extends Controller
     }
 
     public function ambilData(Request $request){
-        $data = Mahasiswa::create($request->all());
-        return redirect('data-mahasiswa');
+        $this->validate($request, [
+        'nim'=>'required|unique:mahasiswa',
+        'nama_mahasiswa' => 'required|min:10',
+        'semester' => 'required|numeric',
+        ]);
+        Mahasiswa::create($request->all());
+        return redirect(url('data-mahasiswa'));
+    }
+
+    public function destroy(Mahasiswa $id){
+        $id->delete();
+        return redirect(url('data-mahasiswa'));
+    }
+
+    public function edit($id){
+        $data = Mahasiswa::find($id);
+        return view('mahasiswa/edit', compact('data'));
+    }
+    public function update($id, Request $request){
+        $data = Mahasiswa::find($id);
+        $rules = [
+            'nama_mahasiswa' => 'required|min:4',
+            'semester' => 'required|numeric'
+        ];
+        if($request->nim != $data->nim) {
+            $rules['nim'] = 'required|unique:mahasiswa';
+        }
+        $validatedData = $request->validate($rules);
+        $data->update($request->all());
+        return redirect(url('data-mahasiswa'));
     }
 }
