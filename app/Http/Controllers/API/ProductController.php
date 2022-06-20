@@ -74,5 +74,12 @@ class ProductController extends Controller
         $products->delete();
         return response()->json(['pesan' => 'Data Berhasil dihapus', 'data' => $products]);
     }
+
+    // tes relasi
+    public function indexRelasi()
+    {
+        $products = Product::with('category')->get();
+        return response()->json(['pesan' => 'Data Berhasil ditemukan', 'data' => $products], 200);
+    }
    
 }
